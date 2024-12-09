@@ -1,0 +1,32 @@
+:root {
+    --theme-primary: #212121;
+    --theme-secondary: #2f2f2f;
+    --theme-thirdly: #444;
+}
+
+.container {
+    background-color: var(--theme-primary);
+}
+
+.card {
+    background-color: var(--theme-secondary);
+}
+
+.button.is-theme {
+    background-color: var(--theme-thirdly);
+    border-color: transparent;
+    color: #fff;
+}
+
+.input-custom {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 12px;
+    background-color: var(--theme-thirdly);
+    color: white;
+}
+
+.error-message {
+    display: none;
+}
