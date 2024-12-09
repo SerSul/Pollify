@@ -1,9 +1,12 @@
-package ru.coursework.pollify.entity;
+package ru.coursework.pollify.entity.security;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import ru.coursework.pollify.annotations.Meta;
+import ru.coursework.pollify.entity.BaseEntity;
+
+import java.util.List;
 
 
 @Entity
@@ -26,4 +29,7 @@ public class User extends BaseEntity {
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private PersonalData personalData;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<AssignedRole> roles;
 }

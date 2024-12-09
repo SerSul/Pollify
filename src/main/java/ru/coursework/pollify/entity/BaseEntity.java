@@ -19,14 +19,13 @@ public abstract class BaseEntity implements IEntity, Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 
+    @Column(name = "entity_uuid")
+    protected UUID uuid = UUID.randomUUID();
+
     @Column(name = "entity_created")
     protected Date created = new Date();
 
     @Column(name = "entity_updated")
     protected Date updated = new Date();
-
-    @Column(name = "entity_uuid")
-    protected UUID uuid = UUID.randomUUID();
-
-
 }
+

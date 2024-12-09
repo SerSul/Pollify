@@ -8,6 +8,7 @@ import jakarta.persistence.Transient;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 import ru.coursework.pollify.annotations.Meta;
 
 import java.text.MessageFormat;
@@ -39,13 +40,13 @@ public class ContactPhoneData extends BaseEntity {
     @Transient
     public String buildNumber() {
         if (!isFilled()) return "-";
-        if (StringUtils.isNotBlank(getValue())) return value;
-        return MessageFormat.format("+{0} ({1}) {2}", getCountryCode(), getOperatorCode(), getNumber());
+        if (StringUtils.isNotBlank(value)) return value;
+        return MessageFormat.format("+{0} ({1}) {2}", countryCode, operatorCode, number);
     }
 
     @Transient
     public boolean isFilled() {
-        return !StringUtils.isAnyBlank(getCountryCode(), getOperatorCode(), getNumber()) || StringUtils.isNotBlank(getValue());
+        return !StringUtils.isAnyBlank(countryCode, operatorCode, number) || StringUtils.isNotBlank(value);
     }
 
     @Override
@@ -53,14 +54,5 @@ public class ContactPhoneData extends BaseEntity {
         return buildNumber();
     }
 
-    public ContactPhoneData copy() {
-        var copiedPhone = new ContactPhoneData();
-        copiedPhone.setCountryCode(this.getCountryCode());
-        copiedPhone.setOperatorCode(this.getOperatorCode());
-        copiedPhone.setNumber(this.getNumber());
-        copiedPhone.setValue(this.getValue());
-
-        return copiedPhone;
-    }
 }
 

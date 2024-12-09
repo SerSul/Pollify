@@ -1,10 +1,12 @@
-package ru.coursework.pollify.entity;
+package ru.coursework.pollify.entity.security;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.coursework.pollify.annotations.Meta;
+import ru.coursework.pollify.entity.BaseEntity;
+import ru.coursework.pollify.entity.ContactPhoneData;
 import ru.coursework.pollify.entity.enums.SexEntity;
 
 import java.util.Date;
