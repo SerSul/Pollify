@@ -9,6 +9,7 @@ import ru.coursework.pollify.annotations.Meta;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Getter
@@ -32,5 +33,13 @@ public class Questionnaire extends BaseEntity {
 
     @OneToMany(mappedBy = "questionnaire")
     private List<QuestionnaireAnswer> answers;
+
+    @Meta(title = "Токен доступа к просмотру прохождений")
+    @Column(name = "access_token_p", unique = true, nullable = false)
+    private UUID accessToken;
+
+    @Meta(title = "Уникальная ссылка")
+    @Column(name = "uri_p", unique = true, nullable = false)
+    private UUID uri;
 
 }

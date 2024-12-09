@@ -3,7 +3,6 @@ package ru.coursework.pollify.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import ru.coursework.pollify.annotations.Meta;
-import ru.coursework.pollify.entity.security.PersonalData;
 
 import java.util.Date;
 import java.util.List;

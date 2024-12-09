@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Анкета</title>
+</head>
+<body>
+<h1 th:text="${questionnaire.title}">Название анкеты</h1>
+<p th:text="${questionnaire.description}">Описание анкеты</p>
+
+
+<p>Уникальная ссылка: <span th:text="${uri}"></span></p>
+</body>
+</html>

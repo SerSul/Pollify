@@ -1,12 +1,10 @@
-package ru.coursework.pollify.entity.security;
+package ru.coursework.pollify.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.coursework.pollify.annotations.Meta;
-import ru.coursework.pollify.entity.BaseEntity;
-import ru.coursework.pollify.entity.ContactPhoneData;
 import ru.coursework.pollify.entity.enums.SexEntity;
 
 import java.util.Date;
@@ -39,12 +37,4 @@ public class PersonalData extends BaseEntity {
     @Meta(title = "Пол")
     private SexEntity sexEntity;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "phone_id")
-    @Meta(title = "Номер телефона")
-    private ContactPhoneData phone;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
-    private User user;
 }
