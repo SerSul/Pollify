@@ -4,12 +4,16 @@
     --theme-thirdly: #444;
 }
 
-.container {
+.has-background-theme-primary {
     background-color: var(--theme-primary);
 }
 
-.card {
+.has-background-theme-secondary {
     background-color: var(--theme-secondary);
+}
+
+.has-background-theme-thirdly {
+    background-color: var(--theme-thirdly);
 }
 
 .button.is-theme {

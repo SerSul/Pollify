@@ -21,7 +21,6 @@ import java.util.UUID;
 @Meta(title = "Анкета")
 public class Questionnaire extends BaseEntity {
 
-
     @Meta(title = "Наименование")
     @Column(name = "title_p")
     private String title;
@@ -29,7 +28,6 @@ public class Questionnaire extends BaseEntity {
     @Meta(title = "Описание")
     @Column(name = "description_p")
     private String description;
-
 
     @OneToMany(mappedBy = "questionnaire")
     private List<QuestionnaireAnswer> answers;
@@ -41,5 +39,13 @@ public class Questionnaire extends BaseEntity {
     @Meta(title = "Уникальная ссылка")
     @Column(name = "uri_p", unique = true, nullable = false)
     private UUID uri;
+
+    @Meta(title = "Приватная ли анкета")
+    @Column(name = "private_p")
+    private boolean is_private;
+
+    @Meta(title = "Количество прохождений")
+    @Column(name = "pass_count_p")
+    private int passCount;
 
 }
