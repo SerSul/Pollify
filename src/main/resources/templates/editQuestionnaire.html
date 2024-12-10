@@ -14,8 +14,15 @@
 <body class="is-flex is-align-items-center is-justify-content-center m-0"
       style="height: 100vh; background-color: #212121">
 
-<div class="container has-background-theme-primary">
-    aboba
+<div class="container" style="border-radius: 20px;">
+    <span class="title has-text-white" th:text="${questionnaire?.title}"></span>
+    <div class="card has-text-white mt-3">
+        <div class="card-content">
+            <div th:each="question : ${questionnaire?.questions}">
+
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 

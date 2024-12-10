@@ -48,4 +48,7 @@ public class Questionnaire extends BaseEntity {
     @Column(name = "pass_count_p")
     private int passCount;
 
+    @OneToMany(mappedBy = "questionnaire")
+    private List<QuestionnaireQuestion> questions;
+
 }

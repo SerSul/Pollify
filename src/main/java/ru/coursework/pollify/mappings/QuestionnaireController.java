@@ -12,7 +12,7 @@ import ru.coursework.pollify.service.TokenUtil;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/questionnaire")
+@RequestMapping
 @RequiredArgsConstructor
 public class QuestionnaireController {
 
@@ -20,19 +20,29 @@ public class QuestionnaireController {
     private final TokenUtil tokenUtil;
     private final QuestionnaireRepository questionnaireRepository;
 
-    @PostMapping("/api/createQuestionnaire")
+    @PostMapping("/api/questionnaire/create")
     public ModelAndView createQuestionnaire(@ModelAttribute QuestionnaireDTO questionnaireDTO) {
         var questionnaire = Questionnaire.builder()
                 .is_private(questionnaireDTO.is_private())
                 .title(questionnaireDTO.title())
                 .description(questionnaireDTO.description())
                 .accessToken(tokenUtil.hash(UUID.randomUUID().toString()))
-                .uri(tokenUtil.hash(UUID.randomUUID().toString()))
+                .uri(UUID.randomUUID().toString())
                 .build();
         questionnaire = questionnaireRepository.save(questionnaire);
+        return new ModelAndView("redirect:/questionnaire/edit/" + questionnaire.getUri());
+    }
+
+    @GetMapping("/questionnaire/edit/{uri}")
+    public ModelAndView editQuestionnaire(@PathVariable String uri) {
+        Questionnaire questionnaire = questionnaireRepository.findByUri(uri);
+        if (questionnaire == null) {
+            return new ModelAndView("redirect:/error");
+        }
         return new ModelAndView("editQuestionnaire")
                 .addObject("questionnaire", questionnaire);
     }
+
 
 
 }

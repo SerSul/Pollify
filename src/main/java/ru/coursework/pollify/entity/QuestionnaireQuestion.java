@@ -1,8 +1,6 @@
 package ru.coursework.pollify.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import ru.coursework.pollify.annotations.Meta;
 
@@ -21,4 +19,7 @@ public class QuestionnaireQuestion extends BaseEntity{
     @Column(name = "sequence_p")
     private int sequence = 0;
 
+    @ManyToOne
+    @JoinColumn(name = "questionnaire_id")
+    private Questionnaire questionnaire;
 }
