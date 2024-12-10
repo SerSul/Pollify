@@ -1,39 +1,37 @@
 package ru.coursework.pollify.mappings;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import ru.coursework.pollify.service.QuestionnaireService;
+import ru.coursework.pollify.dto.QuestionnaireDTO;
+import ru.coursework.pollify.entity.Questionnaire;
+import ru.coursework.pollify.repository.QuestionnaireRepository;
+import ru.coursework.pollify.service.TokenUtil;
 
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/questionnaire")
+@RequiredArgsConstructor
 public class QuestionnaireController {
 
-    @Autowired
-    private QuestionnaireService questionnaireService;
 
-    @GetMapping("/load/{uri}")
-    public ModelAndView getQuestionnaire(@PathVariable String uri, RedirectAttributes redirectAttributes) {
-        try {
-            var questionnaire = questionnaireService.findQuestionnaireByUri(UUID.fromString(uri));
-            return new ModelAndView("questionnaire")
-                    .addObject("questionnaire", questionnaire)
-                    .addObject("uri", uri);
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", true);
-            return new ModelAndView("redirect:/home");
-        }
-    }
+    private final TokenUtil tokenUtil;
+    private final QuestionnaireRepository questionnaireRepository;
 
-    @GetMapping("/create")
-    public ModelAndView createQuestionnaire() {
-        return new ModelAndView("createQuestionnaire");
+    @PostMapping("/api/createQuestionnaire")
+    public ModelAndView createQuestionnaire(@ModelAttribute QuestionnaireDTO questionnaireDTO) {
+        var questionnaire = Questionnaire.builder()
+                .is_private(questionnaireDTO.is_private())
+                .title(questionnaireDTO.title())
+                .description(questionnaireDTO.description())
+                .accessToken(tokenUtil.hash(UUID.randomUUID().toString()))
+                .uri(tokenUtil.hash(UUID.randomUUID().toString()))
+                .build();
+        questionnaire = questionnaireRepository.save(questionnaire);
+        return new ModelAndView("editQuestionnaire")
+                .addObject("questionnaire", questionnaire);
     }
 
 

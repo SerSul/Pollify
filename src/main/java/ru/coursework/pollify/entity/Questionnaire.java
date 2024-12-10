@@ -34,11 +34,11 @@ public class Questionnaire extends BaseEntity {
 
     @Meta(title = "Токен доступа к просмотру прохождений")
     @Column(name = "access_token_p", unique = true, nullable = false)
-    private UUID accessToken;
+    private String accessToken;
 
     @Meta(title = "Уникальная ссылка")
     @Column(name = "uri_p", unique = true, nullable = false)
-    private UUID uri;
+    private String uri;
 
     @Meta(title = "Приватная ли анкета")
     @Column(name = "private_p")
