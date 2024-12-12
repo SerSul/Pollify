@@ -1,5 +1,5 @@
 <html lang="en" layout:decorate="~{__${@vs.getLayoutTemplate()}__}"
-      xmlns:layout="http://www.thymeleaf.org" xmlns:ui="https://adapt-ms.ru" xmlns="http://www.w3.org/1999/html">
+      xmlns:layout="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
@@ -11,19 +11,139 @@
 </head>
 
 
-<body class="is-flex is-align-items-center is-justify-content-center m-0"
-      style="height: 100vh; background-color: #212121">
+<body style="height: 100vh;"
+      class="has-background-theme-primary is-flex is-justify-content-center is-align-items-center">
 
-<div class="container" style="border-radius: 20px;">
-    <span class="title has-text-white" th:text="${questionnaire?.title}"></span>
-    <div class="card has-text-white mt-3">
+<div id="container" class="container is-flex is-flex-direction-column" style="gap:10px;">
+    <div class="is-flex is-justify-content-space-between">
+        <span class="has-text-theme" th:text="${questionnaire?.title}"></span>
+        <button id="addQuestion" class="button is-theme has-text-theme is-small" type="button"
+                onclick="toggleQuestionForm()">
+            <i class="fas fa-plus"></i>
+        </button>
+    </div>
+    <div class="card has-background-theme-secondary">
         <div class="card-content">
-            <div th:each="question : ${questionnaire?.questions}">
-
+            <div th:each="question : ${questionnaire?.questions}" class="m-2">
+                <div class="card has-background-theme-thirdly">
+                    <div class="card-content is-flex is-justify-content-space-between is-align-items-center p-0">
+                        <span class="has-text-theme" th:text="${question?.text}"></span>
+                        <div>
+                            <button id="deleteQuestion" class="button is-theme has-text-theme" type="button">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="newQuestionTemplate" style="display: none;">
+                <div class="card has-background-theme-thirdly">
+                    <form id="newQuestionForm" method="post" action="/api/questionnaire/question/add">
+                        <div class="card-content is-flex is-justify-content-space-between is-align-items-center p-0">
+                            <input type="hidden" id="questionnaireId" th:value="${questionnaire.id}">
+                            <input type="text" id="questionText" placeholder="Введите текст вопроса"
+                                   class="input-custom" style="width: 100%"/>
+                            <div>
+                                <button class="button is-theme has-text-theme"
+                                        type="submit"
+                                        form="newQuestionForm">
+                                    Сохранить
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
+    <div style="width: 20%;">
+        <div>
+            <label for="uri">URI анкеты: </label>
+            <input id="uri" type="text"
+                   class="blur button input-custom"
+                   th:value="${questionnaire?.uri}"
+                   onclick="removeBlur(this)"
+                   onfocus="selectText(this)" readonly/>
+        </div>
+
+        <div class="mt-1">
+            <label for="token">Токен администратора анкеты: </label>
+            <input id="token" type="text"
+                   class="blur button input-custom"
+                   th:value="${questionnaire?.accessToken}"
+                   onclick="removeBlur(this)"
+                   onfocus="selectText(this)" readonly/>
+        </div>
+
+    </div>
+
+
 </div>
 </body>
+<style>
 
+    .blur {
+        filter: blur(5px);
+        cursor: pointer;
+    }
+
+</style>
+<script>
+    function removeBlur(input) {
+        input.classList.remove('blur');
+        input.focus();
+    }
+
+    function selectText(input) {
+        input.select();
+    }
+
+    document.getElementById('addQuestion').addEventListener('click', function () {
+        const template = document.getElementById('newQuestionTemplate');
+        const newQuestion = template.cloneNode(true);
+
+        newQuestion.style.display = 'block';
+    });
+
+    function toggleQuestionForm() {
+        const form = document.getElementById('newQuestionTemplate');
+        form.style.display = form.style.display === 'none' ? 'block' : 'none';
+    }
+
+    document.getElementById('newQuestionForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        const questionnaireId = document.getElementById('questionnaireId').value;
+        const questionText = document.getElementById('questionText').value.trim();
+
+
+        const addQuestionDTO = {
+            questionnaireId: questionnaireId,
+            questionText: questionText
+        };
+
+        console.log(addQuestionDTO);
+
+        fetch('/api/questionnaire/question/add', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(addQuestionDTO)
+        }).then(response => {
+            if (response.ok) {
+                document.getElementById('newQuestionForm').reset();
+                toggleQuestionForm();
+                location.reload();
+            } else {
+                alert('Ошибка при добавлении вопроса.');
+            }
+        }).catch(error => {
+            console.error('Ошибка:', error);
+            alert('Произошла ошибка при добавлении вопроса.');
+        });
+    });
+
+
+</script>
 </html>

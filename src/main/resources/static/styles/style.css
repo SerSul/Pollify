@@ -1,35 +1,45 @@
 :root {
-    --theme-primary: #212121;
-    --theme-secondary: #2f2f2f;
+    --theme-primary: #191919;
+    --theme-secondary: #212121;
     --theme-thirdly: #444;
+    --theme-text: #909090
 }
 
 .has-background-theme-primary {
-    background-color: var(--theme-primary);
-}
-
-.has-background-theme-secondary {
-    background-color: var(--theme-secondary);
+    background-color: var(--theme-primary) !important;
 }
 
 .has-background-theme-thirdly {
-    background-color: var(--theme-thirdly);
+    background-color: var(--theme-thirdly) !important;
+}
+
+.has-background-theme-secondary {
+    background-color: var(--theme-secondary) !important;
 }
 
 .button.is-theme {
-    background-color: var(--theme-thirdly);
     border-color: transparent;
-    color: #fff;
+    background-color: var(--theme-thirdly) !important;
 }
 
+.has-text-theme {
+    color: var(--theme-text) !important;
+}
+
+
 .input-custom {
-    width: 100%;
     padding: 10px;
     border: none;
     border-radius: 12px;
-    background-color: var(--theme-thirdly);
-    color: white;
+    background-color: var(--theme-thirdly) !important;
 }
+
+@media screen and (max-width: 768px) {
+    .container {
+        margin: 5%;
+    }
+}
+
 
 .error-message {
     display: none;

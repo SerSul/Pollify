@@ -5,4 +5,5 @@ import ru.coursework.pollify.entity.Questionnaire;
 
 public interface QuestionnaireRepository extends JpaRepository<Questionnaire, Long> {
     Questionnaire findByUri(String uri);
+    Questionnaire findById(long id);
 }

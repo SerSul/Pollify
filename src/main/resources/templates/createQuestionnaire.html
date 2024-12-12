@@ -2,39 +2,35 @@
       xmlns:layout="http://www.thymeleaf.org" xmlns:ui="https://adapt-ms.ru" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{/styles/style.css}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/styles/style.css}">
     <title>Создание анкеты</title>
 </head>
-<body class="is-flex is-align-items-center is-justify-content-center m-0"
-      style="height: 100vh; background-color: #212121">
-
-<div class="container" style="border-radius: 20px;">
+<body style="height: 100vh;" class="has-background-theme-primary is-flex is-justify-content-center is-align-items-center">
+<div class="container">
     <div class="card has-text-white has-background-theme-secondary">
         <div class="card-content">
-            <form id="create_questionnaire" method="post" action="/api/questionnaire/create" class="is-flex is-flex-direction-column" style="gap: 10px;">
+            <form id="create_questionnaire" method="post" action="/api/questionnaire/create" class="is-flex is-flex-direction-column " style="gap: 10px;">
                 <div class="control">
-                    <label class="label has-text-white" for="title">Наименование</label>
+                    <label class="label has-text-theme" for="title">Наименование</label>
                     <input type="text" id="title" name="title" placeholder="Введите наименование"
-                           class="input-custom"/>
+                           class="input-custom" style="width: 100%"/>
                 </div>
-
                 <div class="control">
-                    <label class="label has-text-white" for="description">Описание</label>
+                    <label class="label has-text-theme" for="description">Описание</label>
                     <input type="text" id="description" name="description" placeholder="Введите описание"
-                           class="input-custom"/>
+                           class="input-custom" style="width: 100%"/>
                 </div>
-
                 <div class="control is-flex is-align-items-center" style="gap: 10px;">
-                    <label for="is_private" class="label has-text-white">Приватная</label>
+                    <label for="is_private" class="label has-text-theme">Приватная</label>
                     <input type="hidden" name="is_private" value="false">
                     <input type="checkbox" id="is_private" name="is_private" class="custom-checkbox" title="Сделать анкету приватной. Приватная анкета доступна только по ключу">
                 </div>
 
             </form>
-            <button form="create_questionnaire" id="createQuestionnaire" class="button is-theme" type="submit">Далее</button>
-            <button id="destroy" class="button is-theme" type="submit">Отмена</button>
+            <button form="create_questionnaire" id="createQuestionnaire" class="button is-theme has-text-theme" type="submit">Далее</button>
+            <button id="destroy" class="button is-theme has-text-theme" type="submit">Отмена</button>
         </div>
     </div>
 </div>
