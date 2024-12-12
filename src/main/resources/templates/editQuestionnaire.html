@@ -13,10 +13,16 @@
 
 <body style="height: 100vh;"
       class="has-background-theme-primary is-flex is-justify-content-center is-align-items-center">
+<a href="/home" style="position: absolute; top: 20px; left: 20px;">
+    <span class=has-text-theme>На главную</span>
+</a>
 
 <div id="container" class="container is-flex is-flex-direction-column" style="gap:10px;">
     <div class="is-flex is-justify-content-space-between">
-        <span class="has-text-theme" th:text="${questionnaire?.title}"></span>
+        <div>
+            <div class="title has-text-theme" th:text="${questionnaire?.title}"></div>
+            <div class="has-text-theme mt-1" th:text="${questionnaire?.description}"></div>
+        </div>
         <button id="addQuestion" class="button is-theme has-text-theme is-small" type="button"
                 onclick="toggleQuestionForm()">
             <i class="fas fa-plus"></i>
@@ -27,7 +33,7 @@
             <div th:each="question : ${questionnaire?.questions}" class="m-2">
                 <div class="card has-background-theme-thirdly">
                     <div class="card-content is-flex is-justify-content-space-between is-align-items-center p-0">
-                        <span class="has-text-theme" th:text="${question?.text}"></span>
+                        <span class="has-text-theme ml-2" th:text="${question?.text}"></span>
                         <div>
                             <button id="deleteQuestion" class="button is-theme has-text-theme" type="button"
                                     th:onclick="'onClickDeleteQuestion(\'' + ${question?.id} + '\');'">
@@ -166,7 +172,6 @@
             alert('Произошла ошибка при удалении вопроса.');
         });
     }
-
 
 
 

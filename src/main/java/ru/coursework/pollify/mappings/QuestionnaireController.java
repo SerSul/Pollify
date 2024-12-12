@@ -47,7 +47,7 @@ public class QuestionnaireController {
     }
 
     @PostMapping("/api/questionnaire/question/add")
-    public ResponseEntity<QuestionnaireQuestion> addQuestion(@RequestBody AddQuestionDTO addQuestionDTO) {
+    public ResponseEntity<Void> addQuestion(@RequestBody AddQuestionDTO addQuestionDTO) {
         if (addQuestionDTO.questionnaireId() == null) {
             return ResponseEntity.badRequest().body(null);
         }
@@ -66,14 +66,13 @@ public class QuestionnaireController {
                 .questionnaire(questionnaire)
                 .text(questionText)
                 .build();
-
         try {
             questionRepository.save(question);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
 
-        return ResponseEntity.ok(question);
+        return ResponseEntity.ok().build();
     }
 
 
