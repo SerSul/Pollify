@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import ru.coursework.pollify.annotations.Meta;
 
+import java.util.List;
+
 @Entity
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor @Builder
@@ -22,4 +24,7 @@ public class QuestionnaireQuestion extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "questionnaire_id")
     private Questionnaire questionnaire;
+
+    @OneToMany(mappedBy = "question", cascade = CascadeType.ALL)
+    private List<QuestionnaireQuestionAnswer> questionnaireQuestionAnswers;
 }

@@ -1,9 +1,6 @@
 package ru.coursework.pollify.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import ru.coursework.pollify.annotations.Meta;
 
@@ -48,7 +45,7 @@ public class Questionnaire extends BaseEntity {
     @Column(name = "pass_count_p")
     private int passCount;
 
-    @OneToMany(mappedBy = "questionnaire")
+    @OneToMany(mappedBy = "questionnaire", cascade = CascadeType.ALL)
     private List<QuestionnaireQuestion> questions;
 
 }

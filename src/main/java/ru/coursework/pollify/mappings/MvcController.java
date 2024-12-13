@@ -65,9 +65,7 @@ public class MvcController {
     public ModelAndView createQuestionnaireApi(@ModelAttribute QuestionnaireDTO questionnaireDTO, HttpSession session) {
         var token = UUID.randomUUID().toString();
         var questionnaire = Questionnaire.builder()
-                .is_private(questionnaireDTO.is_private())
                 .title(questionnaireDTO.title())
-                .description(questionnaireDTO.description())
                 .accessToken(tokenUtil.hash(token))
                 .uri(UUID.randomUUID().toString())
                 .build();
