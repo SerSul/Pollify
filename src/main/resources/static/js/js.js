@@ -21,9 +21,10 @@ document.addEventListener('DOMContentLoaded', function () {
     editButton.addEventListener('click', function () {
         const uri = codeInput.value.trim();
         const token = prompt("Введите токен:");
+        document.getElementById('uriInput').value = uri;
+        document.getElementById('tokenInput').value = token;
 
-
-        window.location.href = `/questionnaire/edit?uri=${encodeURIComponent(uri)}&accessToken=${encodeURIComponent(token)}`;
+        document.getElementById('editQuestionnaireForm').submit();
 
     });
 

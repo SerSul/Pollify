@@ -27,22 +27,32 @@ public class MvcController {
     private final QuestionRepository questionRepository;
 
     @GetMapping("/questionnaire/edit")
-    public ModelAndView editQuestionnaire(@RequestParam String uri, @RequestParam String accessToken, HttpSession session) {
-        var questionnaire = questionnaireRepository.findByUri(uri);
+    public ModelAndView editQuestionnaire(HttpSession session) {
+        QuestionnaireCredentialsDTO credentials = (QuestionnaireCredentialsDTO) session.getAttribute("credentials");
 
-        if (questionnaire == null || !tokenUtil.isTokenValid(accessToken, questionnaire.getAccessToken())) {
+        if (credentials == null) {
             return new ModelAndView("redirect:/error");
         }
 
-        var credentialsDTO = new QuestionnaireCredentialsDTO(uri, accessToken, questionnaire.getId());
+        var questionnaire = questionnaireRepository.findByUri(credentials.uri());
+
+        if (questionnaire == null || !tokenUtil.isTokenValid(credentials.accessToken(), questionnaire.getAccessToken())) {
+            return new ModelAndView("redirect:/error");
+        }
 
         return new ModelAndView("editQuestionnaire")
                 .addObject("questionnaire", questionnaire)
-                .addObject("credentials", credentialsDTO);
+                .addObject("credentials", credentials);
+    }
+
+    @GetMapping("/api/questionnaire/edit")
+    public ModelAndView editQuestionnaireApi(@ModelAttribute QuestionnaireCredentialsDTO credentialsDTO, HttpSession session) {
+        session.setAttribute("credentials", credentialsDTO);
+        return new ModelAndView("redirect:/questionnaire/edit");
     }
 
     @GetMapping("/api/questionnaire/create")
-    public ModelAndView createQuestionnaire(@ModelAttribute QuestionnaireDTO questionnaireDTO, HttpSession session) {
+    public ModelAndView createQuestionnaireApi(@ModelAttribute QuestionnaireDTO questionnaireDTO, HttpSession session) {
         var token = UUID.randomUUID().toString();
         var questionnaire = Questionnaire.builder()
                 .is_private(questionnaireDTO.is_private())
@@ -57,9 +67,7 @@ public class MvcController {
         var credentials = new QuestionnaireCredentialsDTO(questionnaire.getUri(), token, questionnaire.getId());
         session.setAttribute("credentials", credentials);
 
-        return new ModelAndView("redirect:/questionnaire/edit?uri=" +
-                URLEncoder.encode(questionnaire.getUri(), StandardCharsets.UTF_8) +
-                "&accessToken=" + URLEncoder.encode(tokenUtil.hash(token), StandardCharsets.UTF_8));
+        return new ModelAndView("redirect:/questionnaire/edit");
     }
 
     @GetMapping("/questionnaire/pass")
