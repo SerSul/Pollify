@@ -25,12 +25,6 @@ public class QuestionnaireAnswer extends BaseEntity {
     @JoinColumn(name = "questionnaire_id")
     private Questionnaire questionnaire;
 
-    @Meta( title = "Персона")
-    @ManyToOne
-    @JoinColumn(name = "personal_data_id")
-    private PersonalData personalData;
-
-
     @OneToMany(mappedBy = "questionnaireAnswer", cascade = CascadeType.ALL)
     private List<QuestionnaireQuestionAnswer> questionAnswers;
 }

@@ -14,7 +14,7 @@
 <div class="container">
     <div class="card has-text-white has-background-theme-secondary">
         <div class="card-content">
-            <form id="create_questionnaire" method="post" action="/api/questionnaire/create" class="is-flex is-flex-direction-column " style="gap: 10px;">
+            <form id="create_questionnaire" method="get" action="/api/questionnaire/create" class="is-flex is-flex-direction-column " style="gap: 10px;">
                 <div class="control">
                     <label class="label has-text-theme" for="title">Наименование</label>
                     <input type="text" id="title" name="title" placeholder="Введите наименование"
@@ -30,7 +30,6 @@
                     <input type="hidden" name="is_private" value="false">
                     <input type="checkbox" id="is_private" name="is_private" class="custom-checkbox" title="Сделать анкету приватной. Приватная анкета доступна только по ключу">
                 </div>
-
             </form>
             <button form="create_questionnaire" id="createQuestionnaire" class="button is-theme has-text-theme" type="submit">Далее</button>
             <button id="destroy" class="button is-theme has-text-theme" type="submit">Отмена</button>
@@ -44,15 +43,13 @@
         window.location.href = '/';
     });
     document.getElementById('is_private').addEventListener('change', function() {
-        var hiddenField = document.querySelector('input[name="is_private"][type="hidden"]');
+        let hiddenField = document.querySelector('input[name="is_private"][type="hidden"]');
         if (this.checked) {
             hiddenField.value = 'true';
         } else {
             hiddenField.value = 'false';
         }
     });
-
-
 
 </script>
 

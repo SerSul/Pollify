@@ -25,7 +25,9 @@ public class TokenUtil {
     }
 
     public boolean isTokenValid(String receivedToken, String storedTokenHash) {
-        var receivedTokenHash = hash(receivedToken);
-        return receivedTokenHash.equals(storedTokenHash);
+        var hashedReceivedTokenHash = hash(receivedToken);
+        return hashedReceivedTokenHash.equals(storedTokenHash) || receivedToken.equals(storedTokenHash);
     }
+
+
 }
