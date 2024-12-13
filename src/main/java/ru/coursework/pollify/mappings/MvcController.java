@@ -5,15 +5,23 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import ru.coursework.pollify.dto.QuestionAnswerDTO;
 import ru.coursework.pollify.dto.QuestionnaireCredentialsDTO;
 import ru.coursework.pollify.dto.QuestionnaireDTO;
 import ru.coursework.pollify.entity.Questionnaire;
+import ru.coursework.pollify.entity.QuestionnaireAnswer;
+import ru.coursework.pollify.entity.QuestionnaireQuestionAnswer;
 import ru.coursework.pollify.repository.QuestionRepository;
+import ru.coursework.pollify.repository.QuestionnaireAnswerRepository;
+import ru.coursework.pollify.repository.QuestionnaireQuestionAnswerRepository;
 import ru.coursework.pollify.repository.QuestionnaireRepository;
 import ru.coursework.pollify.service.TokenUtil;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Controller
@@ -25,6 +33,8 @@ public class MvcController {
     private final TokenUtil tokenUtil;
     private final QuestionnaireRepository questionnaireRepository;
     private final QuestionRepository questionRepository;
+    private final QuestionnaireQuestionAnswerRepository questionAnswerRepository;
+    private final QuestionnaireAnswerRepository questionnaireAnswerRepository;
 
     @GetMapping("/questionnaire/edit")
     public ModelAndView editQuestionnaire(HttpSession session) {
@@ -91,6 +101,44 @@ public class MvcController {
 
         return new ModelAndView("redirect:/questionnaire/pass");
     }
+
+    @PostMapping("/api/questionnaire/submit")
+    public ModelAndView submitQuestionnaire(@RequestParam Map<String, String> answers, HttpSession session) {
+        var questionnaireId = answers.get("id");
+        answers.remove("id");
+
+        var questionnaire = questionnaireRepository.findById(Long.valueOf(questionnaireId)).orElse(null);
+        if (questionnaire == null) {
+            return new ModelAndView("redirect:/error");
+        }
+        var questionnaireAnswer = QuestionnaireAnswer.builder()
+                .questionnaire(questionnaire)
+                .date(new Date())
+                .build();
+        questionnaireAnswer = questionnaireAnswerRepository.save(questionnaireAnswer);
+
+        for (Map.Entry<String, String> entry : answers.entrySet()) {
+            String questionId = entry.getKey();
+            String answer = entry.getValue();
+
+            var question = questionRepository.findById(Long.valueOf(questionId)).orElse(null);
+            if (question == null) {return new ModelAndView("redirect:/error"); }
+
+            var ans = QuestionnaireQuestionAnswer.builder()
+                    .question(question)
+                    .answer(answer)
+                    .questionnaireAnswer(questionnaireAnswer)
+                    .build();
+
+            questionAnswerRepository.save(ans);
+        }
+
+        return new ModelAndView("redirect:/home");
+    }
+
+
+
+
 
 
 }

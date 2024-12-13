@@ -9,7 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class CustomErrorController implements ErrorController {
 
     @RequestMapping("/error")
-    public String handleError() {
+    public String handleError(HttpSession session) {
+        session.setAttribute("error",true);
         return "redirect:/home";
     }
 }

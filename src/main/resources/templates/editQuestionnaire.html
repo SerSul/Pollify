@@ -11,10 +11,10 @@
 </head>
 
 
-<body style="height: 100vh;"
+<body style="height: 100%;"
       class="has-background-theme-primary is-flex is-justify-content-center is-align-items-center">
 <a href="/home" style="position: absolute; top: 20px; left: 20px;">
-    <span class=has-text-theme>На главную</span>
+    <span class = has-text-theme>На главную</span>
 </a>
 
 <div id="container" class="container is-flex is-flex-direction-column" style="gap:10px;">
@@ -67,40 +67,21 @@
         <span class="has-text-theme mb-1">Прохождения анкеты</span>
         <div class="card has-background-theme-secondary">
             <div class="card-content">
-                <div class="card has-background-theme-thirdly" th:each="answer: ${questionnaire?.answers}">
+                <div class="card has-background-theme-secondary" th:each="answer: ${questionnaire?.answers}">
                     <div class="card-content">
-                        <div th:each="questionAnswer: ${answer.questionAnswers}">
-                            <span th:text="${questionAnswer?.question?.text}"></span>
-                            <span th:text="${questionAnswer?.answer}"></span>
+                        <div th:each="questionAnswer: ${answer.questionAnswers}"
+                             class="has-background-theme-thirdly has-text-theme mb-2" style="border-radius: 10px">
+                            <span class="p-2"
+                                  th:text="${questionAnswer?.question?.text} + ': ' + ${questionAnswer?.answer}"></span>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div style="width: 20%;">
-        <div>
-            <label for="uri">URI анкеты: </label>
-            <input id="uri" type="text"
-                   class="blur button input-custom"
-                   th:value="${questionnaire?.uri}"
-                   onclick="removeBlur(this)"
-                   onfocus="selectText(this)" readonly/>
-        </div>
-
-        <div class="mt-1">
-            <label for="token">Токен администратора анкеты: </label>
-            <input id="token" type="text"
-                   class="blur button input-custom"
-                   th:value="${credentials.accessToken()}"
-                   onclick="removeBlur(this)"
-                   onfocus="selectText(this)" readonly/>
-        </div>
-
-    </div>
-
 
 </div>
+
 </body>
 <style>
 

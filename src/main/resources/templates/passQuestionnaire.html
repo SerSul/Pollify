@@ -12,22 +12,32 @@
 </head>
 
 
-<body style="height: 100vh;" class="has-background-theme-primary is-flex is-justify-content-center is-align-items-center">
+<body style="height: 100vh;"
+      class="has-background-theme-primary is-flex is-justify-content-center is-align-items-center">
 <a href="/home" style="position: absolute; top: 20px; left: 20px;">
     <span class="has-text-theme">На главную</span>
 </a>
 <div class="container">
     <div class="card has-text-white has-background-theme-secondary">
         <div class="card-content">
-            <div class="card has-background-theme-thirdly"
-            th:each="question : ${questionnaire?.questions}">
+            <form id="questionnaireForm" method="post" action="/api/questionnaire/submit">
+                <input type="hidden" id="id" name="id" th:value="${questionnaire?.id}">
+                <div class="card has-background-theme-secondary mb-3"
+                     th:each="question : ${questionnaire?.questions}">
+                    <span class="has-text-theme mb-2" th:text="${question?.text}"></span>
+                    <input th:name="${question?.id}"
+                           th:id="${question?.id}"
+                           type="text" class="input-custom has-text-theme"
+                           placeholder="Ответ"
+                           style="width: 100%">
+                </div>
+                <button type="submit" class="button is-theme">Отправить</button>
+            </form>
 
-            </div>
         </div>
     </div>
 </div>
 </body>
-
 
 
 </html>
