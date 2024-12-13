@@ -12,18 +12,24 @@
 </head>
 
 
-<body style="height: 100vh;" class="has-background-theme-primary is-flex is-justify-content-center is-align-items-center">
+<body style="height: 100vh;"
+      class="has-background-theme-primary is-flex is-justify-content-center is-align-items-center">
 <a href="/home" style="position: absolute; top: 20px; left: 20px;">
-    <span class = has-text-theme>На главную</span>
+    <span class=has-text-theme>На главную</span>
 </a>
 <div class="container">
     <div class="card has-text-white has-background-theme-secondary">
         <div class="card-content">
             <div class="is-flex" style="gap: 10px;">
-                <input id="questionnaireCode" type="text" class="input-custom has-text-theme"
-                       placeholder="Код анкеты"
-                style="width: 100%"/>
-                <button id="openQuestionnaire" class="button is-theme has-text-theme" type="button">Открыть</button>
+                <form id="passQuestionnaire" action="api/questionnaire/pass" method="get"
+                      style="width: 100%">
+                    <input id="uri" name="uri" type="text" class="input-custom has-text-theme"
+                           placeholder="Код анкеты"
+                           style="width: 100%"/>
+                </form>
+                <button id="openQuestionnaire" class="button is-theme has-text-theme" type="submit"
+                        form="passQuestionnaire">Открыть
+                </button>
                 <button id="createQuestionnaire" class="button is-theme has-text-theme" type="button"><i
                         class="fas fa-plus"></i></button>
                 <button id="editQuestionnaire" class="button is-theme has-text-theme" type="button"><i
@@ -35,6 +41,10 @@
         </div>
     </div>
 
+<!--    <div th:if="${error}" class="error-message">-->
+<!--        Произошла ошибка при загрузке анкеты!-->
+<!--    </div>-->
+
     <form id="editQuestionnaireForm" action="/api/questionnaire/edit" method="get" style="display: none;">
         <input type="hidden" name="uri" id="uriInput">
         <input type="hidden" name="accessToken" id="tokenInput">
@@ -42,7 +52,6 @@
 </div>
 
 </body>
-
 
 
 </html>

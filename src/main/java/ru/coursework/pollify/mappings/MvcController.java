@@ -28,7 +28,7 @@ public class MvcController {
 
     @GetMapping("/questionnaire/edit")
     public ModelAndView editQuestionnaire(HttpSession session) {
-        QuestionnaireCredentialsDTO credentials = (QuestionnaireCredentialsDTO) session.getAttribute("credentials");
+        var credentials = (QuestionnaireCredentialsDTO) session.getAttribute("credentials");
 
         if (credentials == null) {
             return new ModelAndView("redirect:/error");
@@ -71,8 +71,8 @@ public class MvcController {
     }
 
     @GetMapping("/questionnaire/pass")
-    public ModelAndView passQuestionnaire(@ModelAttribute String uri, HttpSession session) {
-
+    public ModelAndView passQuestionnaire(HttpSession session) {
+        var uri = session.getAttribute("uri").toString();
         var questionnaire = questionnaireRepository.findByUri(uri);
         if (questionnaire == null) {
             return new ModelAndView("redirect:/error");
@@ -81,4 +81,16 @@ public class MvcController {
         return new ModelAndView("passQuestionnaire")
                 .addObject("questionnaire", questionnaire);
     }
+
+    @GetMapping("/api/questionnaire/pass")
+    public ModelAndView passQuestionnaireApi(@RequestParam String uri, HttpSession session) {
+        if (uri == null) {
+            return new ModelAndView("redirect:/error");
+        }
+        session.setAttribute("uri", uri);
+
+        return new ModelAndView("redirect:/questionnaire/pass");
+    }
+
+
 }

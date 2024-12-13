@@ -1,5 +1,5 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const codeInput = document.getElementById('questionnaireCode');
+    const codeInput = document.getElementById('uri');
     const openButton = document.getElementById('openQuestionnaire');
     const editButton = document.getElementById('editQuestionnaire');
     const questionnaireCreate = document.getElementById('createQuestionnaire');
@@ -9,17 +9,8 @@ document.addEventListener('DOMContentLoaded', function () {
         window.location.href = '/questionnaire/create';
     });
 
-    openButton.addEventListener('click', function () {
-        const code = codeInput.value.trim();
-        if (code) {
-            window.location.href = '/questionnaire/load/' + code;
-        } else {
-            window.location.href = '/home';
-        }
-    });
-
     editButton.addEventListener('click', function () {
-        const uri = codeInput.value.trim();
+        const uri = prompt("Введите код анкеты:");
         const token = prompt("Введите токен:");
         document.getElementById('uriInput').value = uri;
         document.getElementById('tokenInput').value = token;
@@ -29,7 +20,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 
-    codeInput.addEventListener('keypress', function (e) {
+    openButton.addEventListener('keypress', function (e) {
         if (e.key === 'Enter') {
             openButton.click();
         }
