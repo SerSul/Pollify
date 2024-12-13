@@ -14,9 +14,11 @@ import java.util.Objects;
 public class HomeController {
 
     @GetMapping("/home")
-    public String home(HttpSession session) {
+    public ModelAndView home(HttpSession session) {
+        var err = session.getAttribute("error");
         session.invalidate();
-        return "home";
+        return new ModelAndView("home")
+                .addObject("error", err);
     }
 
 

@@ -41,9 +41,9 @@
         </div>
     </div>
 
-<!--    <div th:if="${error}" class="error-message">-->
-<!--        Произошла ошибка при загрузке анкеты!-->
-<!--    </div>-->
+    <div th:if="${error}" class="error-message">
+        Произошла ошибка при загрузке анкеты!
+    </div>
 
     <form id="editQuestionnaireForm" action="/api/questionnaire/edit" method="get" style="display: none;">
         <input type="hidden" name="uri" id="uriInput">
