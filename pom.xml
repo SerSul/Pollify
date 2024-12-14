@@ -94,7 +94,17 @@
 					</annotationProcessorPaths>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<mainClass>ru.coursework.pollify.PollifyApplication</mainClass>
+					<layout>JAR</layout>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
+
+
 
 </project>
