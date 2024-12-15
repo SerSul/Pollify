@@ -30,6 +30,12 @@ public class QuestionnaireController {
     private final QuestionnaireRepository questionnaireRepository;
     private final QuestionRepository questionRepository;
 
+    /**
+     * Обрабатывает запрос на добавление нового вопроса в анкету.
+     *
+     * @param addQuestionDTO DTO объект, содержащий данные о вопросе и идентификатор анкеты.
+     * @return ResponseEntity<Void> объект, представляющий результат выполнения операции.
+     */
     @PostMapping("/api/questionnaire/question/add")
     public ResponseEntity<Void> addQuestion(@RequestBody AddQuestionDTO addQuestionDTO) {
         if (addQuestionDTO.questionnaireId() == null) {
@@ -59,7 +65,14 @@ public class QuestionnaireController {
         return ResponseEntity.ok().build();
     }
 
-
+    /**
+     * Обрабатывает запрос на удаление вопроса по его идентификатору.
+     *
+     * @param id Идентификатор вопроса, который необходимо удалить.
+     * @return ResponseEntity<Void> объект, представляющий результат выполнения операции.
+     *         Возвращает статус 200 (OK) при успешном удалении вопроса.
+     *         Возвращает статус 404 (Not Found), если вопрос с указанным идентификатором не найден.
+     */
     @DeleteMapping("/api/questionnaire/question/delete/{id}")
     public ResponseEntity<Void> deleteQuestion(@PathVariable Long id) {
         if (questionRepository.existsById(id)) {
